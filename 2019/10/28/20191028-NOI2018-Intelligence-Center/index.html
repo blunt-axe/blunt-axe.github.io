@@ -54,9 +54,9 @@
 <meta property="og:site_name" content="blunt_axe 的博客">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;blunt-axe.github.io&#x2F;images&#x2F;20191028-NOI2018-Intelligence-Center.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;wx4.sinaimg.cn&#x2F;mw690&#x2F;0060lm7Tly1fukvjr8uamj306708yq34.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;blunt-axe.github.io&#x2F;images&#x2F;20191028-NOI2018-Intelligence-Center-1.jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;wx1.sinaimg.cn&#x2F;mw690&#x2F;0060lm7Tly1fukvljd5ipj30bf06twev.jpg">
-<meta property="og:updated_time" content="2019-10-28T07:27:58.000Z">
+<meta property="og:updated_time" content="2019-12-04T08:03:51.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;blunt-axe.github.io&#x2F;images&#x2F;20191028-NOI2018-Intelligence-Center.png">
 
@@ -241,10 +241,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-10-28 00:00:00 / 修改时间：15:27:58" itemprop="dateCreated datePublished" datetime="2019-10-28T00:00:00+08:00">2019-10-28</time>
+              <time title="创建时间：2019-10-28 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-28T00:00:00+08:00">2019-10-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-04 16:03:51" itemprop="dateModified" datetime="2019-12-04T16:03:51+08:00">2019-12-04</time>
+              </span>
 
           
             <span id="/2019/10/28/20191028-NOI2018-Intelligence-Center/" class="post-meta-item leancloud_visitors" data-flag-title="「NOI 2018」情报中心（线段树 + 虚树）" title="阅读次数">
@@ -285,7 +291,7 @@
 <p>数据范围：$\sum{n} \le 10^6, \sum {m} \le 2 \times 10^6, 0 \le c_i \le 10^9, 0 \le v_i \le 10^{10} \times n$。</p>
 <p>提示：分两条路径的 LCA 相同或不同讨论。</p>
 <h1 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h1><h2 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h2><p>发现如果两条路径的 LCA 不同，那么它们的交一定是直上直下的一段。</p>
-<p><img src="https://wx4.sinaimg.cn/mw690/0060lm7Tly1fukvjr8uamj306708yq34.jpg" alt=""></p>
+<p><img src="/images/20191028-NOI2018-Intelligence-Center-1.jpg" alt=""></p>
 <p>如上图所示，我们考虑红色和蓝色两条路径。这两条路径形成的权值为：$两条链的总长度 - 两条链的总费用 - (红点到根的距离 - 绿点到根的距离)$。</p>
 <p>我们考虑枚举红点，并同时维护经过红点的所有路径。具体地，我们对每个点 $x$ 维护 $f(x, y)$ 表示所有经过点 $x$ 的、LCA 为 $y$ 的路径中，$长度 - 费用$ 的最大值。这样，我们求出 $f(x)$ 后，就可以用 $\max_{i, j}\lbrace f(x, i) + f(x, j) + \max\lbrace d(i), d(j)\rbrace \rbrace - d(x)$ 更新答案，其中 $d(x)$ 表示点 $x$ 到根的距离。当然，我们发现答案要求的是最大值，所以上式就可以简化为：$\max_{i, j}\lbrace f(x, i) + f(x, j) + d(i)\rbrace - d(x)$。</p>
 <p>我们考虑使用<strong>下标为结点深度</strong>的线段树来维护这样一个过程。在遍历到某个点时，我们要加入所有以它为端点的路径；在 DFS 完某个点儿子时，我们要将儿子的 $f$ 数组合并到自己身上；在某个点从 DFS 栈中出去时，我们要删除所有 LCA 恰好为它的路径。也就是说，我们只需要支持单点更新，单点清除，以及合并。在修改 / 合并过程进行的同时，我们要进行答案的更新。注意红点的下方必须分叉，所以<strong>加入某个子树之前需要先更新答案</strong>。对于修改，我们用新加入的链和原来线段树中的点更新答案；在合并两棵树 $x, y$ 的时候，我们在合并之前用 $(\text{ls}(x), \text{rs}(y))$ 以及 $(\text{rs}(x), \text{ls}(y))$ 来更新答案即可。具体实现见代码。</p>
@@ -378,7 +384,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">82</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
