@@ -213,6 +213,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blunt-axe.github.io/2019/10/10/20191010-Dominator-Tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="blunt_axe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blunt_axe 的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/10/20191010-Dominator-Tree/" class="post-title-link" itemprop="url">「学习笔记」支配树与 Lengauer Tarjan 算法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-10 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-10T00:00:00+08:00">2019-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-11 14:16:12" itemprop="dateModified" datetime="2019-10-11T14:16:12+08:00">2019-10-11</time>
+              </span>
+
+          
+            <span id="/2019/10/10/20191010-Dominator-Tree/" class="post-meta-item leancloud_visitors" data-flag-title="「学习笔记」支配树与 Lengauer Tarjan 算法" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/10/20191010-Dominator-Tree/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/10/10/20191010-Dominator-Tree/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>对于一张有向图，确定一个根，如果根到 $x$ 的每条路径都经过 $y$，那么称 $y$ 是 $x$ 的支配点。求出原图的一个 dfs 树，那么 $x$ 的支配点一定在 $x$ 到根的链上。如果每个点向自己深度最大的支配点（记作 $\text{idom}(u)$）连边，就构成了支配树。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/10/20191010-Dominator-Tree/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://blunt-axe.github.io/2019/10/03/20191003-ARC096E-Everything-On-It/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1028,95 +1121,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blunt-axe.github.io/2019/07/29/20190729-Chordal-Graph/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="blunt_axe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blunt_axe 的博客">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/29/20190729-Chordal-Graph/" class="post-title-link" itemprop="url">「学习笔记」弦图与完美消除序列</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-07-29 00:00:01 / 修改时间：20:49:02" itemprop="dateCreated datePublished" datetime="2019-07-29T00:00:01+08:00">2019-07-29</time>
-            </span>
-
-          
-            <span id="/2019/07/29/20190729-Chordal-Graph/" class="post-meta-item leancloud_visitors" data-flag-title="「学习笔记」弦图与完美消除序列" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/07/29/20190729-Chordal-Graph/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/07/29/20190729-Chordal-Graph/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="弦图"><a href="#弦图" class="headerlink" title="弦图"></a>弦图</h1><p>弦图是一类特殊的无向图。弦图上的所有简单环上都至少有一条弦，其中弦是联结环上两个不相邻的点的边。</p>
-<p>这个限制等价于图中存在至少一个完美消除序列。</p>
-<p>（好像学了一个没啥用的东西）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/07/29/20190729-Chordal-Graph/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1167,7 +1171,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
