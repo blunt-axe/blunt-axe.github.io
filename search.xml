@@ -1,6 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>「学习笔记」生成函数入门</title>
+    <url>/2019/12/12/20191212-Generating-Function-Notes/</url>
+    <content><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>在数学中，某个序列 $(a_n)_{n \in {\mathbb{N}}}$ 的母函数（又称生成函数，英语：Generating Function）是一种形式幂级数，其每一项的系数可以提供关于这个序列的信息。使用母函数解决问题的方法称为母函数方法。</p>
+</blockquote>
+<p>摘自维基百科。生成函数分为多种，本文将主要介绍普通生成函数（Ordinary Generating Function）和指数生成函数（Exponential Generating Function）。另外，本文还会提到大部分的多项式算法，用来解决生成函数的题目。</p>
+<p>入门文章推荐：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/52817010" target="_blank" rel="noopener">浅谈生成函数之 OGF</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/53079223" target="_blank" rel="noopener">浅谈生成函数之 EGF</a></li>
+</ul>
+<a id="more"></a>
+<h1 id="前置技能"><a href="#前置技能" class="headerlink" title="前置技能"></a>前置技能</h1><h2 id="广义二项式定理"><a href="#广义二项式定理" class="headerlink" title="广义二项式定理"></a>广义二项式定理</h2><p>广义二项式定理是卡特兰数通项的前置技能。我们对广义的组合数有如下定义：</p>
+<script type="math/tex; mode=display">
+\binom{\alpha}{n} = \frac{\alpha^{\underline{n}}}{n!} (\alpha \in \mathbb{C},n \in \mathbb{N})</script><p>那么下式始终成立：</p>
+<script type="math/tex; mode=display">
+(x + 1)^\alpha = \sum_{i = 0}^{\infty} \binom{\alpha}{i} x^i</script><p>当 $\alpha$ 为整数的时候上式就是传统的二项式定理。</p>
+<h2 id="复合函数求导"><a href="#复合函数求导" class="headerlink" title="复合函数求导"></a>复合函数求导</h2><p>对一个复合函数 $f\circ g(x)$ 求导：</p>
+<script type="math/tex; mode=display">
+(f \circ g(x))' = \frac{\text{d} f\circ g(x)}{\text{d} g(x)} \cdot \frac{\text{d} g(x)}{\text{d} x} = f'(g(x)) \cdot g'(x)</script><p>这样的求导法则被称为 “链式法则”。</p>
+<h1 id="普通生成函数"><a href="#普通生成函数" class="headerlink" title="普通生成函数"></a>普通生成函数</h1><p>普通生成函数，英文 Ordinary Generating Function，简称 OGF。对于序列 $(a_n)_{n \in \mathbb{N}}$，它的普通生成函数 $F(x) = \sum_{i = 0}^{\infty} a_i x_i$。另外如果 $a_i$ 是某个离散随机变量的概率质量函数，它的生成函数被称为概率生成函数。</p>
+<h2 id="BZOJ-3028-食物"><a href="#BZOJ-3028-食物" class="headerlink" title="BZOJ 3028 食物"></a>BZOJ 3028 食物</h2><p><a href="http://darkbzoj.tk/problem/3028" target="_blank" rel="noopener">「BZOJ 3028」食物</a></p>
+<p><strong>题目大意：</strong></p>
+<p>由若干种食物，每种食物有一个限制（比如只能选不超过 $x$ 个，只能选奇数个等，具体看题），问选出 $n$ 份食物的方案数。</p>
+<p>数据范围：$n \le 10^{500}$。</p>
+<p><strong>思路分析：</strong></p>
+<p>考虑把所有食物的生成函数乘起来：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+& (x^0 + x^2 + \cdots)(x^0 + x^1)(x^0 + x^1 + x^2)(x^1 + x^3 + \cdots) (x^0 + x^4 + \cdots) \\
+\times & (x^0 + x^1 + x^2 + x^3)(x^0 + x^1)(x^0 + x^3 + \cdots) \\
+= & \frac{(1 + x)^2(1 + x + x^2)(1 + x + x^2 + x^3) x}{(1 - x^2)^2 (1 - x^3) (1 - x^4)} \\
+= & \frac{(1 + x)^2(1 - x^3)(1 - x^4) x}{(1 - x)^4(1 + x)^2(1 - x^3)(1 - x^4)} \\
+= & \frac{x}{(1 - x)^4} \\
+\end {split}</script><p>于是我们考虑用二项式定理展开：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+F(x) & = \frac{x}{(1 - x)^4} \\
+& = x (1 - x)^{-4} \\
+& = x \sum_{i = 0}^{\infty} \binom{-4}{i} (-x)^i \\
+& = x \sum_{i = 0}^{\infty} (-4) \times (-5) \times \cdots \times \left(-(i + 3)\right) \times \frac{1}{i} \times (-x)^i \\
+& = \sum_{i = 1}^{\infty} \binom{i + 2}{3} \times x^i
+\end {split}</script><p>于是就有 $f(n) = \binom{n + 2}{3}$，直接计算即可。</p>
+<h2 id="BZOJ-3027-Sweet"><a href="#BZOJ-3027-Sweet" class="headerlink" title="BZOJ 3027 Sweet"></a>BZOJ 3027 Sweet</h2><p><a href="http://darkbzoj.tk/problem/3027" target="_blank" rel="noopener">「BZOJ 3027」Sweet</a></p>
+<p><strong>题目大意：</strong></p>
+<p>有 $n$ 罐糖，第 $i$ 罐有 $m_i$ 个，问选出 $[a, b]$ 个糖的方案数。</p>
+<p>数据范围：$n \le 10, m_i \le 10^6, a \le b \le 10^7$。</p>
+<p><strong>思路分析：</strong></p>
+<p>我们要求的是生成函数：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+& \prod_{i = 1}^{n} \frac{1 - x^{m_i + 1}}{1 - x} \\
+= & (1 - x)^{-n} \prod_{i = 1}^{n} 1 - x^{m_i + 1} \\
+= & \sum_{i = 0}^{\infty} \binom{-n}{i} (-x)^i \prod_{i = 1}^{n} 1 - x^{m_i + 1} \\
+= & \sum_{i = 0}^{\infty} \binom{n + i - 1}{n - 1} x^i \prod_{i = 1}^{n} 1 - x^{m_i + 1} \\
+\end {split}</script><p>中 $x^a, x^{a + 1}, \cdots, x^b$ 的系数的和。</p>
+<p>发现 $n$ 很小，所以可以 $2^n$ 枚举 $\prod_{i = 1}^{n} 1 - x^{m_i + 1}$ 的每一项，之后就只需要计算一个组合数的前缀和：</p>
+<script type="math/tex; mode=display">
+\sum_{i = 0}^{k} \binom{n + i - 1}{n - 1} = \binom{n + k}{n}</script><p>直接计算即可，时间复杂度 $O(2^n n)$。</p>
+<h2 id="推导卡特兰数通项"><a href="#推导卡特兰数通项" class="headerlink" title="推导卡特兰数通项"></a>推导卡特兰数通项</h2><p>卡特兰数的第 $n$ 项表示 $n$ 个结点的二叉树数量（不带标号，区分左右子树）。记卡特兰数的第 $n$ 项为 $f_n$，那么 $f(0) = 1$，且对于 $n \ge 1$ 有递推式：</p>
+<script type="math/tex; mode=display">
+f(n) = \sum_{i = 0}^{n - 1} f(i) f(n - 1 - i)</script><p>记 $F(x)$ 表示卡特兰数的生成函数，那么我们有：</p>
+<script type="math/tex; mode=display">
+F(x) = xF^2(x) + 1 \\</script><p>最后 $+1$ 是因为要考虑 $f(0) = 1$ 的边界。那么我们考虑解方程：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+F(x) & = \frac{1 \pm \sqrt{1 - 4x}}{2x} \\
+& = \frac{(1 \pm \sqrt{1 - 4x})(1 \mp \sqrt{1 - 4x})}{2x(1 \mp \sqrt{1 - 4x})} \\
+& = \frac{4x}{2x(1 \mp \sqrt{1 - 4x})} \\
+& = \frac{2}{1 + \sqrt{1 - 4x}}  \\
+& = \frac{1 - \sqrt{1 - 4x}}{2x} \\
+\end {split}</script><p>在第四行舍掉减号是因为如果取减号那么 $x = 0$ 时没有意义。</p>
+<p>那么我们首先要计算 $(1 - 4x)^{\frac{1}{2}}$，用二项式定理展开：</p>
+<script type="math/tex; mode=display">
+(1 - 4x)^{\frac{1}{2}} = \sum_{i = 0}^{\infty} \binom{\frac{1}{2}}{i} (-4x)^i = g(i) \\</script><p>考虑计算 $g(i)$：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+g(i) & = \left(\frac{1}{2}\right) \times \left(-\frac{1}{2}\right) \times \left(-\frac{3}{2}\right) \times \cdots \times \left(-\frac{2i - 3}{2}\right) \times \left(\frac{1}{i!}\right) \times (-4x)^i \\
+& = \left(\frac{1}{2}\right)^i \cdot (-1)^{i - 1} \cdot (2i - 3)!! \cdot \left(\frac{1}{i!}\right) \cdot (-1)^i \cdot 4^i x^i \\
+& = -\frac{(2i - 3)!!}{i!} \cdot 2^i x^i \\
+& = -\frac{(2i - 2)!}{2^{i - 1}(i - 1)! i!} \cdot 2^i x^i \\
+& = -\frac{2(2i - 2)!}{(i - 1)! i!} x^i \\
+\end {split} \\</script><p>注意上式只在 $i \ge 1$ 时是正确的，$i = 0$ 时 $g(0) = 1$。经过上述的推导，我们有：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+(1 - 4x)^{\frac{1}{2}} = 1 - \sum_{i = 1}^{\infty} \frac{2(2i - 2)!}{(i - 1)! i!} x^i \\
+\end {split}</script><p>代回原式得到：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+F(x) & = \frac{1 - \sqrt{1 - 4x}}{2x} \\
+& = \frac{\sum_{i = 1}^{\infty} \frac{2(2i - 2)!}{(i - 1)! i!} x^i}{2x} \\
+& = \sum_{i = 0}^{\infty} \frac{(2i)!}{i! (i + 1)!} x^i \\
+\end {split}</script><p>所以我们就得到了卡特兰数的通项公式：</p>
+<script type="math/tex; mode=display">
+f(n) = \frac{(2n)!}{i!(i + 1)!} = \frac{\binom{2n}{n}}{n + 1}</script><h2 id="BZOJ-4001-概率论"><a href="#BZOJ-4001-概率论" class="headerlink" title="BZOJ 4001 概率论"></a>BZOJ 4001 概率论</h2><p><a href="http://darkbzoj.tk/problem/4001" target="_blank" rel="noopener">「BZOJ 4001」概率论</a></p>
+<p><strong>题目大意：</strong></p>
+<p>问 $n$ 个点的二叉树期望有几个叶子。</p>
+<p>数据范围：$n \le 10^9$。</p>
+<p><strong>思路分析：</strong></p>
+<p>设 $f(n)$ 表示 $n$ 个结点的二叉树的叶子总数，那么我们有 $f(1) = 1$，对于 $n \ge 2$ 有递推式：</p>
+<script type="math/tex; mode=display">
+f(n) = 2\sum_{i = 1}^{n - 1} f(i) C_{n - 1 - i}</script><p>其中 $C_i$ 表示卡特兰数的第 $i$ 项，也就是 $\frac{\binom{2n}{n}}{n + 1}$。那么我们记卡特兰数的 OGF 为 $H(x)$，$f(n)$ 的 OGF 为 $F(x)$，那么我们有：</p>
+<script type="math/tex; mode=display">
+F(x) = 2xF(x)H(x) + x</script><p>在上一题中我们知道 $H(x) = \frac{1 - \sqrt{1 - 4x}}{2x}$，那么我们就有：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+F(x) & = (1 - \sqrt{1 - 4x}) F(x) + x \\
+& = \frac{x}{\sqrt{1 - 4x}} \\
+& = x (1 - 4x)^{-\frac{1}{2}} \\
+& = x \sum_{i = 0}^{\infty} \binom{-\frac{1}{2}}{i} (-4x)^i \\
+& = x \sum_{i = 0}^{\infty} \binom{2i}{i} x^i \\
+& = \sum_{i = 1}^{\infty} \binom{2i - 2}{i - 1} x^i
+\end {split}</script><p>于是我们就得到了 $f(n) = \binom{2n - 2}{n - 1}$，那么答案就是：</p>
+<script type="math/tex; mode=display">
+\frac{f(n)}{C_n} = \frac{\binom{2n - 2}{n - 1} (n + 1)}{\binom{2n}{n}} = \frac{n^2 + n}{4n - 2}</script><p>直接计算即可。当然也有更巧妙的方法，观察到：</p>
+<script type="math/tex; mode=display">
+\int \frac{F(x)}{x} \text{d}x = -\frac{1}{2} \sqrt{1 - 4x} = xH(x)</script><p>那么我们就得到了：$f(n) = n C_{n - 1} = \binom{2n - 2}{n - 1}$。</p>
+<h2 id="Codeforces-438E-小朋友与二叉树"><a href="#Codeforces-438E-小朋友与二叉树" class="headerlink" title="Codeforces 438E 小朋友与二叉树"></a>Codeforces 438E 小朋友与二叉树</h2><p><a href="https://codeforces.com/problemset/problem/438/E" target="_blank" rel="noopener">「Codeforces 438E」The Child and Binary Tree</a></p>
+<p><strong>题目大意：</strong></p>
+<p>给定 $n$ 个数 $c_1, c_2, \cdots, c_n$，问有多少棵点上有数的二叉树，满足点上的数是某个 $c_i$，并且点权和为 $k$。对于所有 $1 \le k \le m$ 求出答案。</p>
+<p>数据范围：$n, m \le 10^5$。</p>
+<p><strong>思路分析：</strong></p>
+<p>设 $c_1, c_2, \cdots, c_n$ 的 OGF 为 $G(x)$，答案的 OGF 为 $F(x)$，那么根据题意，有：</p>
+<script type="math/tex; mode=display">
+F(x) = G(x)F^2(x) + 1 \\
+G(x)F^2(x) - F(x) + 1 = 0 \\</script><p>考虑解方程：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+F(x) & = \frac{1 \pm \sqrt{1 - 4G(x)}}{2G(x)} \\
+& = \frac{\left(1 \pm \sqrt{1 - 4G(x)}\right)\left(1 \mp \sqrt{1 - 4G(x)}\right)}{2G(x)\left(1 \mp \sqrt{1 - 4G(x)}\right)} \\
+& = \frac{\left(1 \pm \sqrt{1 - 4G(x)}\right)\left(1 \mp \sqrt{1 - 4G(x)}\right)}{2G(x)\left(1 \mp \sqrt{1 - 4G(x)}\right)} \\
+& = \frac{4G(x)}{2G(x)\left(1 \mp \sqrt{1 - 4G(x)}\right)} \\
+& = \frac{2}{1 + \sqrt{1 - 4G(x)}} \\
+\end {split}</script><p>这里要舍掉减号。于是使用多项式求逆、开根即可计算，时间复杂度 $O(n \log n)$。</p>
+<h1 id="指数生成函数"><a href="#指数生成函数" class="headerlink" title="指数生成函数"></a>指数生成函数</h1><p>指数生成函数，英文是 Exponential Generating Function，简称 EGF。对于序列 $(a_n)_{n \in \mathbb{N}}$，它的指数生成函数为：</p>
+<script type="math/tex; mode=display">
+\hat F(x) = \sum_{i = 0}^{\infty} \frac{a_i}{i!} x_i</script><p>指数生成函数一般被用来求解有标号的计数问题，它可以简化运算，因为有以下泰勒级数成立：</p>
+<script type="math/tex; mode=display">
+e^x = 1 + \frac{x}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots</script><h2 id="POJ-3734-Blocks"><a href="#POJ-3734-Blocks" class="headerlink" title="POJ 3734 Blocks"></a>POJ 3734 Blocks</h2><p><a href="http://poj.org/problem?id=3734" target="_blank" rel="noopener">「POJ 3734」Blocks</a></p>
+<p><strong>题目大意：</strong></p>
+<p>有 $n$ 个带标号的格子，每个格子染 $4$ 种颜色之一，要求最后第 $1, 2$ 种颜色是偶数，问方案数。</p>
+<p>数据范围：$T \le 100, n \le 10^9$。</p>
+<p><strong>思路分析：</strong></p>
+<p>格子是有标号的，考虑答案的指数生成函数：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+\hat F(x) & = \left(1 + \frac{x^1}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots\right)^2 \left(1 + \frac{x^2}{2!} + \frac{x^4}{4!} + \cdots\right)^2 \\
+& = \left(e^x\right)^2 \left(\frac{e^x + e^{-x}}{2}\right)^2 \\
+& = \frac{e^{2x} \cdot (e^{2x} + e^{-2x} + 2)}{4} \\
+& = \frac{e^{4x} + 2e^{2x} + 1}{4}
+\end {split}</script><p>因为 $e^{ax} = \sum_{i = 0}^{\infty} \frac{(ax)^i}{i!} = \sum_{i = 0}^{\infty} a^i \frac{x^i}{i!}$，所以有：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+\hat F(x) & = \frac{e^{4x} + 2e^{2x} + 1}{4} \\
+& = \frac{1}{4} + \frac{\sum_{i = 0}^{\infty} (2^{i + 1} + 4^{i}) \frac{x^i}{i!}}{4}
+\end {split}</script><p>所以答案 $f(n)$ 就等于 $\frac{2^{n + 1} + 4^n}{4}$，直接计算即可。</p>
+<h2 id="BZOJ-3456-城市规划"><a href="#BZOJ-3456-城市规划" class="headerlink" title="BZOJ 3456 城市规划"></a>BZOJ 3456 城市规划</h2><p><a href="http://darkbzoj.tk/problem/3456" target="_blank" rel="noopener">「BZOJ 3456」城市规划</a></p>
+<p><strong>题目大意：</strong></p>
+<p>问有多少个带标号的 $n$ 个点的联通图。</p>
+<p>数据范围：$n \le 1.3 \times 10^5$。</p>
+<p><strong>思路分析：</strong></p>
+<p>记 $n$ 个点的带标号无向图的个数为 $g(n) = 2^{\frac{n(n - 1)}{2}}$，那么 $g(n)$ 的指数生成函数为：</p>
+<script type="math/tex; mode=display">
+\hat G(x) = \sum_{i = 0}^{\infty} 2^{\frac{i(i - 1)}{2}} \frac{x^i}{i!}</script><p>记 $n$ 个点的带标号联通图的个数为 $f(n)$，那么 $f(n)$ 的指数生成函数为：</p>
+<script type="math/tex; mode=display">
+\hat F(x) = \sum_{i = 0}^{\infty} f(i) \frac{x^i}{i!}</script><p>发现 $\hat G(x) = 1 + \frac{\hat F(x)}{1!} + \frac{\hat F^2(x)}{2!} + \frac{\hat F^3(x)}{3!} + \cdots = e^{\hat F(x)}$，所以我们把 $\hat G(x)$ 做多项式对数函数就行了。时间复杂度 $O(n \log n)$。</p>
+<h2 id="51nod-1728-不动点"><a href="#51nod-1728-不动点" class="headerlink" title="51nod 1728 不动点"></a>51nod 1728 不动点</h2><p><a href="https://www.51nod.com/Challenge/Problem.html#problemId=1728" target="_blank" rel="noopener">「51nod 1728」不动点</a></p>
+<p><strong>题目大意：</strong></p>
+<p>求有多少个映射 $f:{1,2,\cdots,n}\to {1,2,\cdots,n}$，使得 $\forall i, \underbrace{f\circ f \circ \cdots \circ f}_{k}(i) = \underbrace{f\circ f \circ \cdots \circ f}_{k - 1}(i)$。</p>
+<p>数据范围：$T \le 5 \times 10^4, n \le 2 \times 10^6, k \le 3$。时限 $20s$。</p>
+<p><strong>思路分析：</strong></p>
+<p>其实就是求 $n$ 个点的每个树的深度都不超过 $k$ 的有根森林的个数。记 $k = i$ 时的指数生成函数为 $\hat F_i(x)$，那么显然有 $\hat F_1(x) = e^x$。考虑如何从 $F_i(x)$ 推到 $F_{i + 1}(x)$。对于一个 $n$ 个点的有根树我们枚举一个根，去掉这个根后其他的点就会形成大小为 $n - 1$ 的有根森林。如果令 $n$ 个点的深度不超过 $i$ 的有根树个数的指数生成函数为 $\hat G_i(x)$，那么就有 $[x^n]\hat G_{i + 1}(x) = n[x^{n - 1}]\hat F_{i}(x)$，推一下发现 $\hat G_{i + 1}(x) = x \hat F_{i}(x)$。而我们又有 $\hat F_i(x) = \exp(\hat G_i(x))$，所以就有 $\hat F_{i + 1}(x) = \exp(x\hat F_i(x))$。时间复杂度 $O(k n \log n)$，注意常数优化。</p>
+<h2 id="Codeforces-891E-Lust"><a href="#Codeforces-891E-Lust" class="headerlink" title="Codeforces 891E Lust"></a>Codeforces 891E Lust</h2><p><a href="https://codeforces.com/problemset/problem/891/E" target="_blank" rel="noopener">「Codeforces 891E」Lust</a></p>
+<p><strong>题目大意：</strong></p>
+<p>给定 $n$ 个数 $a_1, a_2, \cdots, a_n$，作 $k$ 次操作，每次随机选一个数 $a_i \gets a_i - 1$，把 $\text{res} \gets \text{res} + \prod_{j \neq i} a_j$，问最后 $\text{res}$ 的期望。</p>
+<p>数据范围：$n \le 5000, k \le 10^9$。</p>
+<p><strong>思路分析：</strong></p>
+<p>发现答案等于一开始所有数的乘积减去操作完后所有数的乘积，所以只要算操作完后所有数的乘积的期望。考虑算出每个数的 EGF 最后乘起来。$a_i$ 的 EGF 是：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+F_i(x) & = \sum_{j = 0}^{\infty} (a_i - j)\frac{x^j}{j!} \\
+& = (a_i - x)e^x
+\end {split}</script><p>所以答案的 EGF 是：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+F(x) & = \prod_{i = 1}^{n} F_i(x) \\
+& = \prod_{i = 1}^{n} (a_i - x)e^x \\
+& = e^{nx} \prod_{i = 1}^{n} (a_i - x) \\
+\end {split}</script><p>我们要求的期望 $E$ 满足 $\frac{n^k E}{k!} = [x^k] F(x)$。我们 $O(n^2)$ 算出 $\prod_{i = 1}^{n} (a_i - x) = \sum_{i = 0}^{n} b_i x^i$ 后考虑计算答案：</p>
+<script type="math/tex; mode=display">
+\begin {split}
+\frac{n^k E}{k!} & = [x^k] e^{nx} \prod_{i = 1}^{n} (a_i - x) \\
+& = [x^k] \prod_{i = 1}^{n} (a_i - x) \prod_{j = 0}^{\infty} \frac{n^j}{j!} \\
+& = \sum_{i = 0}^{n} b_i \frac{n^{k - i}}{(k - i)!} \\
+E & = \sum_{i = 0}^{n} b_i \frac{n^{- i} k!}{(k - i)!} \\
+& = \sum_{i = 0}^{n} b_i \frac{k^{\underline{i}}}{n^i}
+\end {split}</script><p>直接计算，总复杂度 $O(n^2)$。</p>
+]]></content>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>多项式</tag>
+        <tag>生成函数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>「学习笔记」多项式算法</title>
     <url>/2019/12/11/20191211-Polynomial-Algorithms-Notes/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在 OI 中，许多涉及到生成函数的计数题都需要使用一些多项式算法，所以掌握多项式算法是必要的。</p>
@@ -10,7 +215,7 @@
 <h1 id="多项式乘法"><a href="#多项式乘法" class="headerlink" title="多项式乘法"></a>多项式乘法</h1><p>乘法可以使用 FFT 完成。假设要计算 $H(x) = F(x) G(x)$，那么只需要把 $F(x), G(x)$ 进行 DFT，然后对应点值相乘后再 IDFT 回去就行了，时间复杂度 $O(n \log n)$。</p>
 <h1 id="多项式求导与积分"><a href="#多项式求导与积分" class="headerlink" title="多项式求导与积分"></a>多项式求导与积分</h1><p>对于多项式 $F(x) = \sum_{i = 0}^{n} a_i x^i$，我们有：</p>
 <script type="math/tex; mode=display">
-F'(x) = \sum_{i = 0}^{n - 1} a_{i + 1} (i + 1)x^i \\\int F(x) = \sum_{i = 1}^{n + 1} \frac{a_{i - 1}}{i} x^i</script><p>可以直接线性计算。</p>
+F'(x) = \sum_{i = 0}^{n - 1} a_{i + 1} (i + 1)x^i \\\int F(x) \text{d}x = \sum_{i = 1}^{n + 1} \frac{a_{i - 1}}{i} x^i</script><p>可以直接线性计算。</p>
 <h1 id="泰勒展开"><a href="#泰勒展开" class="headerlink" title="泰勒展开"></a>泰勒展开</h1><p>泰勒展开是多项式牛顿迭代的前置技能，它的思想就是用多项式来逼近一个函数。定义函数 $f(x)$ 在点 $x_0$ 的泰勒展开为：</p>
 <script type="math/tex; mode=display">
 f(x) = \sum_{i = 0}^{\infty} \frac{f^{(i)}(x_0)}{i!} (x - x_0)^i</script><p>其中 $f^{(i)}(x)$ 表示函数 $f(x)$ 的 $i$ 阶导数。 当然 $f(x)$ 不仅可以以数为参数，也可以以函数为参数。</p>
@@ -38,9 +243,9 @@ x^{-1} = (1 - (1 - x))^{-1} = \sum_{i = 0}^{\infty} (1 - x)^i</script><p>那么�
 <script type="math/tex; mode=display">
 \ln F(x) = \sum_{i = 1}^{\infty} \frac{(1 - F(x))^i}{i}</script><p>注意 $F(x)$ 的常数项必须为 $1$。怎么求 $\ln F(x) \pmod{x^n}$ 呢？考虑复合函数求导：</p>
 <script type="math/tex; mode=display">
-(\ln F(x))' = \frac{d \ln F(x)}{dx} = \frac{d \ln F(x)}{d F(x)} \cdot \frac{d F(x)}{dx} = \frac{F'(x)}{F(x)}</script><p>两边同时积分得到：</p>
+(\ln F(x))' = \frac{\text{d} \ln F(x)}{\text{d}x} = \frac{\text{d} \ln F(x)}{\text{d} F(x)} \cdot \frac{\text{d} F(x)}{\text{d}x} = \frac{F'(x)}{F(x)}</script><p>两边同时积分得到：</p>
 <script type="math/tex; mode=display">
-\ln F(x) = \int \frac{F'(x)}{F(x)}</script><p>那么使用多项式求逆计算即可，时间复杂度 $O(n \log n)$。</p>
+\ln F(x) = \int \frac{F'(x)}{F(x)} \text{d} x</script><p>那么使用多项式求逆计算即可，时间复杂度 $O(n \log n)$。</p>
 <h1 id="多项式指数函数"><a href="#多项式指数函数" class="headerlink" title="多项式指数函数"></a>多项式指数函数</h1><p>问题：给定 $H(x)$，求 $F(x) = \exp(H(x)) \pmod{x^n}$。</p>
 <p>考虑令 $G(F(x)) = \ln F(x) - H(x)$，并使用牛顿迭代法。那么我们有：</p>
 <script type="math/tex; mode=display">
@@ -1848,8 +2053,8 @@ f(k) &= \sum_{i} y_i  \prod_{i \neq j} \frac{k - x_j}{x_i - x_j} \\
 <p>期望得分 $100$ 分。</p>
 <h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> n = <span class="number">25</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[n + <span class="number">3</span>], b[n + <span class="number">3</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    a[<span class="number">0</span>] = <span class="number">1</span>, b[<span class="number">0</span>] = <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        a[i] = <span class="number">2</span> * b[i - <span class="number">1</span>] - a[i - <span class="number">1</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line">        b[i] = a[i - <span class="number">1</span>] - b[i - <span class="number">1</span>];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">int</span> x = a[n], y = b[n];</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">if</span> (n &amp; <span class="number">1</span>) x = -x;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">else</span> y = -y;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, x, y);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>]]></content>
       <tags>
-        <tag>数学</tag>
         <tag>出题</tag>
+        <tag>数学</tag>
       </tags>
   </entry>
   <entry>
@@ -1905,26 +2110,6 @@ f(k) &= \sum_{i} y_i  \prod_{i \neq j} \frac{k - x_j}{x_i - x_j} \\
       </tags>
   </entry>
   <entry>
-    <title>我出的一些题目</title>
-    <url>/2019/06/16/20190616-My-Problems/</url>
-    <content><![CDATA[<p>博主无聊时会出一些题目，难度不等。欢迎大家来玩！</p>
-<p>注意：题目前带 <code>*</code> 的表示还没造完 / 已经投给某个比赛了，所以暂时不能查看。</p>
-<a id="more"></a>
-<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h2 id="星空夜"><a href="#星空夜" class="headerlink" title="星空夜"></a>星空夜</h2><p><a href="https://www.luogu.org/problemnew/show/U71500" target="_blank" rel="noopener">「Luogu U71500 / EOJ 191C」星空夜（提高组）</a></p>
-<p>命题报告：<a href="/2019/07/26/20190726-EOJ191C-LCM2">「Luogu U71500 / EOJ 191C」星空夜 命题报告</a></p>
-<h2 id="大白菜的疑惑"><a href="#大白菜的疑惑" class="headerlink" title="大白菜的疑惑"></a>大白菜的疑惑</h2><p><a href="https://www.luogu.org/problemnew/show/U74074" target="_blank" rel="noopener">「Luogu U74074」大白菜的疑惑（普及组）</a></p>
-<p>命题报告：<a href="/2019/06/20/20190620-U74074-Math/">「Luogu U74074」大白菜的疑惑 命题报告</a></p>
-<h2 id="黄队的宫殿"><a href="#黄队的宫殿" class="headerlink" title="黄队的宫殿"></a>黄队的宫殿</h2><p><a href="https://www.luogu.org/problemnew/show/U85089" target="_blank" rel="noopener">「Luogu U85089」黄队的宫殿（普及组）</a></p>
-<p>命题报告：它在一个神秘的地方，自己找吧。</p>
-<h2 id="草"><a href="#草" class="headerlink" title="* 草"></a>* 草</h2><p><a href="https://www.luogu.org/problem/U85053" target="_blank" rel="noopener">「Luogu U85053」草（提高组）</a></p>
-<h2 id="定点飞行"><a href="#定点飞行" class="headerlink" title="* 定点飞行"></a>* 定点飞行</h2><p><a href="https://www.luogu.org/problemnew/show/U75331" target="_blank" rel="noopener">*「Luogu U75331」定点飞行（省选）</a></p>
-<h2 id="拆塔"><a href="#拆塔" class="headerlink" title="* 拆塔"></a>* 拆塔</h2><p><a href="https://www.luogu.org/problemnew/show/U81838" target="_blank" rel="noopener">*「Luogu U81838」拆塔（省选）</a></p>
-]]></content>
-      <tags>
-        <tag>出题</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>「Codeforces 464D」WoD - 2（概率论 + 动态规划）</title>
     <url>/2019/06/16/20190616-CF464D-World-of-Darkraft-2/</url>
     <content><![CDATA[<h1 id="题目大意"><a href="#题目大意" class="headerlink" title="题目大意"></a>题目大意</h1><p><a href="https://codeforces.com/problemset/problem/464/D" target="_blank" rel="noopener">「Codeforces 464D」World of Darkraft - 2</a></p>
@@ -1943,6 +2128,26 @@ f(k) &= \sum_{i} y_i  \prod_{i \neq j} \frac{k - x_j}{x_i - x_j} \\
       <tags>
         <tag>动态规划</tag>
         <tag>概率论</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我出的一些题目</title>
+    <url>/2019/06/16/20190616-My-Problems/</url>
+    <content><![CDATA[<p>博主无聊时会出一些题目，难度不等。欢迎大家来玩！</p>
+<p>注意：题目前带 <code>*</code> 的表示还没造完 / 已经投给某个比赛了，所以暂时不能查看。</p>
+<a id="more"></a>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h2 id="星空夜"><a href="#星空夜" class="headerlink" title="星空夜"></a>星空夜</h2><p><a href="https://www.luogu.org/problemnew/show/U71500" target="_blank" rel="noopener">「Luogu U71500 / EOJ 191C」星空夜（提高组）</a></p>
+<p>命题报告：<a href="/2019/07/26/20190726-EOJ191C-LCM2">「Luogu U71500 / EOJ 191C」星空夜 命题报告</a></p>
+<h2 id="大白菜的疑惑"><a href="#大白菜的疑惑" class="headerlink" title="大白菜的疑惑"></a>大白菜的疑惑</h2><p><a href="https://www.luogu.org/problemnew/show/U74074" target="_blank" rel="noopener">「Luogu U74074」大白菜的疑惑（普及组）</a></p>
+<p>命题报告：<a href="/2019/06/20/20190620-U74074-Math/">「Luogu U74074」大白菜的疑惑 命题报告</a></p>
+<h2 id="黄队的宫殿"><a href="#黄队的宫殿" class="headerlink" title="黄队的宫殿"></a>黄队的宫殿</h2><p><a href="https://www.luogu.org/problemnew/show/U85089" target="_blank" rel="noopener">「Luogu U85089」黄队的宫殿（普及组）</a></p>
+<p>命题报告：它在一个神秘的地方，自己找吧。</p>
+<h2 id="草"><a href="#草" class="headerlink" title="* 草"></a>* 草</h2><p><a href="https://www.luogu.org/problem/U85053" target="_blank" rel="noopener">「Luogu U85053」草（提高组）</a></p>
+<h2 id="定点飞行"><a href="#定点飞行" class="headerlink" title="* 定点飞行"></a>* 定点飞行</h2><p><a href="https://www.luogu.org/problemnew/show/U75331" target="_blank" rel="noopener">*「Luogu U75331」定点飞行（省选）</a></p>
+<h2 id="拆塔"><a href="#拆塔" class="headerlink" title="* 拆塔"></a>* 拆塔</h2><p><a href="https://www.luogu.org/problemnew/show/U81838" target="_blank" rel="noopener">*「Luogu U81838」拆塔（省选）</a></p>
+]]></content>
+      <tags>
+        <tag>出题</tag>
       </tags>
   </entry>
   <entry>

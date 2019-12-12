@@ -55,7 +55,7 @@
 <meta property="og:site_name" content="blunt_axe 的博客">
 <meta property="og:description" content="前言在 OI 中，许多涉及到生成函数的计数题都需要使用一些多项式算法，所以掌握多项式算法是必要的。 常见导数 \begin {split}(x^n)&amp;apos; &amp; &#x3D; nx^{n - 1} \\(e^x)&amp;apos; &amp; &#x3D; e^x \\(a^x)&amp;apos; &amp; &#x3D; e^{x \ln a} \ln a \\(\ln x)&amp;apos; &amp; &#x3D; x^{-1}\end {split}">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-11T11:23:27.803Z">
+<meta property="og:updated_time" content="2019-12-12T01:38:09.123Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://blunt-axe.github.io/2019/12/11/20191211-Polynomial-Algorithms-Notes/">
@@ -239,10 +239,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-12-11 00:00:00 / 修改时间：19:23:27" itemprop="dateCreated datePublished" datetime="2019-12-11T00:00:00+08:00">2019-12-11</time>
+              <time title="创建时间：2019-12-11 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-11T00:00:00+08:00">2019-12-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-12 09:38:09" itemprop="dateModified" datetime="2019-12-12T09:38:09+08:00">2019-12-12</time>
+              </span>
 
           
             <span id="/2019/12/11/20191211-Polynomial-Algorithms-Notes/" class="post-meta-item leancloud_visitors" data-flag-title="「学习笔记」多项式算法" title="阅读次数">
@@ -283,7 +289,7 @@
 <h1 id="多项式乘法"><a href="#多项式乘法" class="headerlink" title="多项式乘法"></a>多项式乘法</h1><p>乘法可以使用 FFT 完成。假设要计算 $H(x) = F(x) G(x)$，那么只需要把 $F(x), G(x)$ 进行 DFT，然后对应点值相乘后再 IDFT 回去就行了，时间复杂度 $O(n \log n)$。</p>
 <h1 id="多项式求导与积分"><a href="#多项式求导与积分" class="headerlink" title="多项式求导与积分"></a>多项式求导与积分</h1><p>对于多项式 $F(x) = \sum_{i = 0}^{n} a_i x^i$，我们有：</p>
 <script type="math/tex; mode=display">
-F'(x) = \sum_{i = 0}^{n - 1} a_{i + 1} (i + 1)x^i \\\int F(x) = \sum_{i = 1}^{n + 1} \frac{a_{i - 1}}{i} x^i</script><p>可以直接线性计算。</p>
+F'(x) = \sum_{i = 0}^{n - 1} a_{i + 1} (i + 1)x^i \\\int F(x) \text{d}x = \sum_{i = 1}^{n + 1} \frac{a_{i - 1}}{i} x^i</script><p>可以直接线性计算。</p>
 <h1 id="泰勒展开"><a href="#泰勒展开" class="headerlink" title="泰勒展开"></a>泰勒展开</h1><p>泰勒展开是多项式牛顿迭代的前置技能，它的思想就是用多项式来逼近一个函数。定义函数 $f(x)$ 在点 $x_0$ 的泰勒展开为：</p>
 <script type="math/tex; mode=display">
 f(x) = \sum_{i = 0}^{\infty} \frac{f^{(i)}(x_0)}{i!} (x - x_0)^i</script><p>其中 $f^{(i)}(x)$ 表示函数 $f(x)$ 的 $i$ 阶导数。 当然 $f(x)$ 不仅可以以数为参数，也可以以函数为参数。</p>
@@ -311,9 +317,9 @@ x^{-1} = (1 - (1 - x))^{-1} = \sum_{i = 0}^{\infty} (1 - x)^i</script><p>那么�
 <script type="math/tex; mode=display">
 \ln F(x) = \sum_{i = 1}^{\infty} \frac{(1 - F(x))^i}{i}</script><p>注意 $F(x)$ 的常数项必须为 $1$。怎么求 $\ln F(x) \pmod{x^n}$ 呢？考虑复合函数求导：</p>
 <script type="math/tex; mode=display">
-(\ln F(x))' = \frac{d \ln F(x)}{dx} = \frac{d \ln F(x)}{d F(x)} \cdot \frac{d F(x)}{dx} = \frac{F'(x)}{F(x)}</script><p>两边同时积分得到：</p>
+(\ln F(x))' = \frac{\text{d} \ln F(x)}{\text{d}x} = \frac{\text{d} \ln F(x)}{\text{d} F(x)} \cdot \frac{\text{d} F(x)}{\text{d}x} = \frac{F'(x)}{F(x)}</script><p>两边同时积分得到：</p>
 <script type="math/tex; mode=display">
-\ln F(x) = \int \frac{F'(x)}{F(x)}</script><p>那么使用多项式求逆计算即可，时间复杂度 $O(n \log n)$。</p>
+\ln F(x) = \int \frac{F'(x)}{F(x)} \text{d} x</script><p>那么使用多项式求逆计算即可，时间复杂度 $O(n \log n)$。</p>
 <h1 id="多项式指数函数"><a href="#多项式指数函数" class="headerlink" title="多项式指数函数"></a>多项式指数函数</h1><p>问题：给定 $H(x)$，求 $F(x) = \exp(H(x)) \pmod{x^n}$。</p>
 <p>考虑令 $G(F(x)) = \ln F(x) - H(x)$，并使用牛顿迭代法。那么我们有：</p>
 <script type="math/tex; mode=display">
@@ -341,7 +347,10 @@ x^{-1} = (1 - (1 - x))^{-1} = \sum_{i = 0}^{\infty} (1 - x)^i</script><p>那么�
     <a href="/2019/12/10/20191210-IOI2020-Homework-5/" rel="prev" title="「集训队作业」IOI 2020 集训队作业小结 5">
       <i class="fa fa-chevron-left"></i> 「集训队作业」IOI 2020 集训队作业小结 5
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/12/20191212-Generating-Function-Notes/" rel="next" title="「学习笔记」生成函数入门">
+      「学习笔记」生成函数入门 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -396,7 +405,7 @@ x^{-1} = (1 - (1 - x))^{-1} = \sum_{i = 0}^{\infty} (1 - x)^i</script><p>那么�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
