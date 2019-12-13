@@ -55,7 +55,7 @@
 <meta property="og:site_name" content="blunt_axe 的博客">
 <meta property="og:description" content="简介 在数学中，某个序列 $(a_n)_{n \in {\mathbb{N}}}$ 的母函数（又称生成函数，英语：Generating Function）是一种形式幂级数，其每一项的系数可以提供关于这个序列的信息。使用母函数解决问题的方法称为母函数方法。  摘自维基百科。生成函数分为多种，本文将主要介绍普通生成函数（Ordinary Generating Function）和指数生成函数（Expo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-12T08:28:04.824Z">
+<meta property="og:updated_time" content="2019-12-13T02:46:30.098Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://blunt-axe.github.io/2019/12/12/20191212-Generating-Function-Notes/">
@@ -239,33 +239,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-12-12 00:00:00 / 修改时间：16:28:04" itemprop="dateCreated datePublished" datetime="2019-12-12T00:00:00+08:00">2019-12-12</time>
+              <time title="创建时间：2019-12-12 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-12T00:00:00+08:00">2019-12-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-13 10:46:30" itemprop="dateModified" datetime="2019-12-13T10:46:30+08:00">2019-12-13</time>
+              </span>
 
           
-            <span id="/2019/12/12/20191212-Generating-Function-Notes/" class="post-meta-item leancloud_visitors" data-flag-title="「学习笔记」生成函数入门" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/12/12/20191212-Generating-Function-Notes/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/12/20191212-Generating-Function-Notes/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 
         </div>
       </header>
@@ -454,15 +439,15 @@ e^x = 1 + \frac{x}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots</script><h2 id
 <p>发现答案等于一开始所有数的乘积减去操作完后所有数的乘积，所以只要算操作完后所有数的乘积的期望。考虑算出每个数的 EGF 最后乘起来。$a_i$ 的 EGF 是：</p>
 <script type="math/tex; mode=display">
 \begin {split}
-F_i(x) & = \sum_{j = 0}^{\infty} (a_i - j)\frac{x^j}{j!} \\
+\hat F_i(x) & = \sum_{j = 0}^{\infty} (a_i - j)\frac{x^j}{j!} \\
 & = (a_i - x)e^x
 \end {split}</script><p>所以答案的 EGF 是：</p>
 <script type="math/tex; mode=display">
 \begin {split}
-F(x) & = \prod_{i = 1}^{n} F_i(x) \\
+\hat F(x) & = \prod_{i = 1}^{n} \hat F_i(x) \\
 & = \prod_{i = 1}^{n} (a_i - x)e^x \\
 & = e^{nx} \prod_{i = 1}^{n} (a_i - x) \\
-\end {split}</script><p>我们要求的期望 $E$ 满足 $\frac{n^k E}{k!} = [x^k] F(x)$。我们 $O(n^2)$ 算出 $\prod_{i = 1}^{n} (a_i - x) = \sum_{i = 0}^{n} b_i x^i$ 后考虑计算答案：</p>
+\end {split}</script><p>我们要求的期望 $E$ 满足 $\frac{n^k E}{k!} = [x^k] \hat F(x)$。我们 $O(n^2)$ 算出 $\prod_{i = 1}^{n} (a_i - x) = \sum_{i = 0}^{n} b_i x^i$ 后考虑计算答案：</p>
 <script type="math/tex; mode=display">
 \begin {split}
 \frac{n^k E}{k!} & = [x^k] e^{nx} \prod_{i = 1}^{n} (a_i - x) \\
@@ -508,7 +493,6 @@ E & = \sum_{i = 0}^{n} b_i \frac{n^{- i} k!}{(k - i)!} \\
 
           </div>
           
-    <div class="comments" id="comments"></div>
 
         </div>
           
@@ -697,33 +681,6 @@ E & = \sum_{i = 0}^{n} b_i \frac{n^{- i} k!}{(k - i)!} \\
     
 
   
-
-
-<script>
-NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail,link';
-  guest = guest.split(',').filter(item => {
-    return GUEST.includes(item);
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: false,
-    appId: 'CojbBFwK6vvI9PjzHhCkibrb-MdYXbMMI',
-    appKey: 'eJcI3opul9Mao5egYW9XNf5o',
-    placeholder: "ヾﾉ≧∀≦)o 来呀！快活呀！~",
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: true,
-    lang: 'zh-CN' || 'zh-cn',
-    path: location.pathname,
-    recordIP: false,
-    serverURLs: ''
-  });
-}, window.Valine);
-</script>
 
 </body>
 </html>

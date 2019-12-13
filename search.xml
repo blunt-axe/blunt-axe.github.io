@@ -181,15 +181,15 @@ e^x = 1 + \frac{x}{1!} + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots</script><h2 id
 <p>发现答案等于一开始所有数的乘积减去操作完后所有数的乘积，所以只要算操作完后所有数的乘积的期望。考虑算出每个数的 EGF 最后乘起来。$a_i$ 的 EGF 是：</p>
 <script type="math/tex; mode=display">
 \begin {split}
-F_i(x) & = \sum_{j = 0}^{\infty} (a_i - j)\frac{x^j}{j!} \\
+\hat F_i(x) & = \sum_{j = 0}^{\infty} (a_i - j)\frac{x^j}{j!} \\
 & = (a_i - x)e^x
 \end {split}</script><p>所以答案的 EGF 是：</p>
 <script type="math/tex; mode=display">
 \begin {split}
-F(x) & = \prod_{i = 1}^{n} F_i(x) \\
+\hat F(x) & = \prod_{i = 1}^{n} \hat F_i(x) \\
 & = \prod_{i = 1}^{n} (a_i - x)e^x \\
 & = e^{nx} \prod_{i = 1}^{n} (a_i - x) \\
-\end {split}</script><p>我们要求的期望 $E$ 满足 $\frac{n^k E}{k!} = [x^k] F(x)$。我们 $O(n^2)$ 算出 $\prod_{i = 1}^{n} (a_i - x) = \sum_{i = 0}^{n} b_i x^i$ 后考虑计算答案：</p>
+\end {split}</script><p>我们要求的期望 $E$ 满足 $\frac{n^k E}{k!} = [x^k] \hat F(x)$。我们 $O(n^2)$ 算出 $\prod_{i = 1}^{n} (a_i - x) = \sum_{i = 0}^{n} b_i x^i$ 后考虑计算答案：</p>
 <script type="math/tex; mode=display">
 \begin {split}
 \frac{n^k E}{k!} & = [x^k] e^{nx} \prod_{i = 1}^{n} (a_i - x) \\
@@ -2110,6 +2110,26 @@ f(k) &= \sum_{i} y_i  \prod_{i \neq j} \frac{k - x_j}{x_i - x_j} \\
       </tags>
   </entry>
   <entry>
+    <title>我出的一些题目</title>
+    <url>/2019/06/16/20190616-My-Problems/</url>
+    <content><![CDATA[<p>博主无聊时会出一些题目，难度不等。欢迎大家来玩！</p>
+<p>注意：题目前带 <code>*</code> 的表示还没造完 / 已经投给某个比赛了，所以暂时不能查看。</p>
+<a id="more"></a>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h2 id="星空夜"><a href="#星空夜" class="headerlink" title="星空夜"></a>星空夜</h2><p><a href="https://www.luogu.org/problemnew/show/U71500" target="_blank" rel="noopener">「Luogu U71500 / EOJ 191C」星空夜（提高组）</a></p>
+<p>命题报告：<a href="/2019/07/26/20190726-EOJ191C-LCM2">「Luogu U71500 / EOJ 191C」星空夜 命题报告</a></p>
+<h2 id="大白菜的疑惑"><a href="#大白菜的疑惑" class="headerlink" title="大白菜的疑惑"></a>大白菜的疑惑</h2><p><a href="https://www.luogu.org/problemnew/show/U74074" target="_blank" rel="noopener">「Luogu U74074」大白菜的疑惑（普及组）</a></p>
+<p>命题报告：<a href="/2019/06/20/20190620-U74074-Math/">「Luogu U74074」大白菜的疑惑 命题报告</a></p>
+<h2 id="黄队的宫殿"><a href="#黄队的宫殿" class="headerlink" title="黄队的宫殿"></a>黄队的宫殿</h2><p><a href="https://www.luogu.org/problemnew/show/U85089" target="_blank" rel="noopener">「Luogu U85089」黄队的宫殿（普及组）</a></p>
+<p>命题报告：它在一个神秘的地方，自己找吧。</p>
+<h2 id="草"><a href="#草" class="headerlink" title="* 草"></a>* 草</h2><p><a href="https://www.luogu.org/problem/U85053" target="_blank" rel="noopener">「Luogu U85053」草（提高组）</a></p>
+<h2 id="定点飞行"><a href="#定点飞行" class="headerlink" title="* 定点飞行"></a>* 定点飞行</h2><p><a href="https://www.luogu.org/problemnew/show/U75331" target="_blank" rel="noopener">*「Luogu U75331」定点飞行（省选）</a></p>
+<h2 id="拆塔"><a href="#拆塔" class="headerlink" title="* 拆塔"></a>* 拆塔</h2><p><a href="https://www.luogu.org/problemnew/show/U81838" target="_blank" rel="noopener">*「Luogu U81838」拆塔（省选）</a></p>
+]]></content>
+      <tags>
+        <tag>出题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>「Codeforces 464D」WoD - 2（概率论 + 动态规划）</title>
     <url>/2019/06/16/20190616-CF464D-World-of-Darkraft-2/</url>
     <content><![CDATA[<h1 id="题目大意"><a href="#题目大意" class="headerlink" title="题目大意"></a>题目大意</h1><p><a href="https://codeforces.com/problemset/problem/464/D" target="_blank" rel="noopener">「Codeforces 464D」World of Darkraft - 2</a></p>
@@ -2128,26 +2148,6 @@ f(k) &= \sum_{i} y_i  \prod_{i \neq j} \frac{k - x_j}{x_i - x_j} \\
       <tags>
         <tag>动态规划</tag>
         <tag>概率论</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>我出的一些题目</title>
-    <url>/2019/06/16/20190616-My-Problems/</url>
-    <content><![CDATA[<p>博主无聊时会出一些题目，难度不等。欢迎大家来玩！</p>
-<p>注意：题目前带 <code>*</code> 的表示还没造完 / 已经投给某个比赛了，所以暂时不能查看。</p>
-<a id="more"></a>
-<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><h2 id="星空夜"><a href="#星空夜" class="headerlink" title="星空夜"></a>星空夜</h2><p><a href="https://www.luogu.org/problemnew/show/U71500" target="_blank" rel="noopener">「Luogu U71500 / EOJ 191C」星空夜（提高组）</a></p>
-<p>命题报告：<a href="/2019/07/26/20190726-EOJ191C-LCM2">「Luogu U71500 / EOJ 191C」星空夜 命题报告</a></p>
-<h2 id="大白菜的疑惑"><a href="#大白菜的疑惑" class="headerlink" title="大白菜的疑惑"></a>大白菜的疑惑</h2><p><a href="https://www.luogu.org/problemnew/show/U74074" target="_blank" rel="noopener">「Luogu U74074」大白菜的疑惑（普及组）</a></p>
-<p>命题报告：<a href="/2019/06/20/20190620-U74074-Math/">「Luogu U74074」大白菜的疑惑 命题报告</a></p>
-<h2 id="黄队的宫殿"><a href="#黄队的宫殿" class="headerlink" title="黄队的宫殿"></a>黄队的宫殿</h2><p><a href="https://www.luogu.org/problemnew/show/U85089" target="_blank" rel="noopener">「Luogu U85089」黄队的宫殿（普及组）</a></p>
-<p>命题报告：它在一个神秘的地方，自己找吧。</p>
-<h2 id="草"><a href="#草" class="headerlink" title="* 草"></a>* 草</h2><p><a href="https://www.luogu.org/problem/U85053" target="_blank" rel="noopener">「Luogu U85053」草（提高组）</a></p>
-<h2 id="定点飞行"><a href="#定点飞行" class="headerlink" title="* 定点飞行"></a>* 定点飞行</h2><p><a href="https://www.luogu.org/problemnew/show/U75331" target="_blank" rel="noopener">*「Luogu U75331」定点飞行（省选）</a></p>
-<h2 id="拆塔"><a href="#拆塔" class="headerlink" title="* 拆塔"></a>* 拆塔</h2><p><a href="https://www.luogu.org/problemnew/show/U81838" target="_blank" rel="noopener">*「Luogu U81838」拆塔（省选）</a></p>
-]]></content>
-      <tags>
-        <tag>出题</tag>
       </tags>
   </entry>
   <entry>
